@@ -4,6 +4,7 @@ from datetime import datetime
 import json
 from user_database import UserResource
 from flask_cors import CORS
+import boto3
 
 # Create the Flask application object.
 app = Flask(__name__)
@@ -50,6 +51,16 @@ def delete_allergy():
 def add_user():
     email = request.form['email']
     name  = request.form['name']
+
+    client = boto3.client('ses')
+    res = client.list_identities(
+        IdentityType='EmailAddress'
+    )
+    identities = res['Identities']
+    if email not in identities:
+        client.verify_email_identity(
+            EmailAddress=email
+        )
     
     user_id = UserResource.get_userid_by_email(email)
     if user_id == -1:
