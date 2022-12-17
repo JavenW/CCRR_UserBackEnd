@@ -11,47 +11,63 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/users", methods=["GET"])
-def get_all_users():
-    result = UserResource.get_users()
-    if result:
-        rsp = Response(json.dumps(result), status=200, content_type="app.json")
-    else:
-        rsp = Response("NOT FOUND", status=404, content_type="text/plain")
-    return rsp
+# @app.route("/users", methods=["GET"])
+# def get_all_users():
+#     result = UserResource.get_users()
+#     if result:
+#         rsp = Response(json.dumps(result), status=200, content_type="app.json")
+#     else:
+#         rsp = Response("NOT FOUND", status=404, content_type="text/plain")
+#     return rsp
 
-@app.route("/users/<email>", methods=["GET"])
+@app.route("/getallergy/<email>", methods=["GET"])
 def get_allergy(email):
-    result = UserResource.get_user_by_email(email)
+    result = UserResource.get_user_allergy_by_email(email)
     if result:
         rsp = Response(json.dumps(result), status=200, content_type="app.json")
     else:
         rsp = Response("NOT FOUND", status=404, content_type="text/plain")
     return rsp
 
+@app.route("/addallergy", methods=["post"])
+def add_allergy():
+    email = request.form['email']
+    allergy = request.form['allergy']
+    UserResource.add_allergy_by_email(email, allergy)
 
-#@app.route("/login", methods=["POST"])
-def add_user(email, name, allergy):
-    #email = request.args.get('email')
-    #name = request.args.get('name')
-    #allergy = request.args.get('allergy')
-    #print(email, name, allergy)
-    UserResource.add_user_by_info(email, name, allergy)
+    return Response(json.dumps({}), status=200, content_type="app.json")
+
+@app.route("/deleteallergy", methods=["post"])
+def delete_allergy():
+    email = request.form['email']
+    allergy = request.form['allergy']
+    UserResource.delete_allergy_by_email(email, allergy)
+
+    return Response(json.dumps({}), status=200, content_type="app.json")
+
+
+@app.route("/login", methods=["POST"])
+def add_user():
+    email = request.form['email']
+    name  = request.form['name']
+    
+    user_id = UserResource.get_userid_by_email(email)
+    if user_id == -1:
+        UserResource.add_user_by_info(email, name)
+
+
+    return Response(json.dumps({}), status=200, content_type="app.json")
 
 
 #@app.route("/l", methods=["DELETE"])
-def delete_user(email):
+# def delete_user(email):
     #email = request.args.get('email')
-    UserResource.delete_user_by_email(email)
-
-
-def delete_allergy(email, allergy):
-    UserResource.delete_allergy_by_email_and_allergy(email, allergy)
+    # UserResource.delete_user_by_email(email)
 
 
 #@app.route("/login", methods=["POST"])
-def update_phone(email, phone):
-    UserResource.update_phone_by_email_and_phone(email, phone)
+# def update_phone(email, phone):
+#     UserResource.update_phone_by_email_and_phone(email, phone)
 
 
 if __name__ == "__main__":
