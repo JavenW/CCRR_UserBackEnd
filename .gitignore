@@ -1,4 +1,4 @@
-/user_backend/node_modules/*
-/user_backend/__pycache__/*
-/user_backend/.idea/*
-/user_backend/package-lock.json
+user_backend/node_modules/
+user_backend/__pycache__/
+user_backend/.idea/
+user_backend/package-lock.json
