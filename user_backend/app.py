@@ -32,7 +32,7 @@ def get_allergy():
     res = User.checkAuthToken(userid, token)
     if not res:
         return Response(json.dumps({}), status=403, content_type="app.json")
-    result = UserResource.get_user_allergy_by_user_id(userid)
+    result = User.get_user_allergy_by_user_id(userid)
     if result:
         rsp = Response(json.dumps(result), status=200, content_type="app.json")
     else:
