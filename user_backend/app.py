@@ -39,7 +39,7 @@ def get_allergy():
         rsp = Response("NOT FOUND", status=404, content_type="text/plain")
     return rsp
 
-@app.route("/addallergy", methods=["post"])
+@app.route("/addallergy", methods=["POST"])
 def add_allergy():
     userid = request.form['userid']
     token = request.form['token']
@@ -65,12 +65,14 @@ def delete_allergy():
 
 
 
-@app.route("/checklogin", methods=["POST"])
+@app.route("/checklogin", methods=["GET"])
 def checklogin():
     print("here1")
-    id = request.form['userid']
+    # id = request.form['userid']
+    id = request.args.get('userid', None)
     print("here2")
-    token = request.form['authtoken']
+    # token = request.form['authtoken']
+    token = request.args.get('authtoken', None)
     print("here3")
     res = User.checkAuthToken(id, token)
     if res:
@@ -78,7 +80,7 @@ def checklogin():
     else:
         return Response(json.dumps({}), status=403, content_type="app.json")
 
-@app.route("/login")
+@app.route("/login", methods=["POST"])
 def login():
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
