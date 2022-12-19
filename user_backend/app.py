@@ -1,6 +1,5 @@
 from flask import Flask, Response, request, redirect, url_for
 import json
-from user_database import UserResource
 from flask_cors import CORS
 import os
 from oauthlib.oauth2 import WebApplicationClient
