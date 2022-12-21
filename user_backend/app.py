@@ -29,40 +29,41 @@ client = WebApplicationClient(GOOGLE_CLIENT_ID)
 def get_allergy():
     userid = request.args.get('userid', None)
     token = request.args.get('token', None)
+    print(userid)
+    print(token)
     res = User.checkAuthToken(userid, token)
     if not res:
         return Response(json.dumps({}), status=403, content_type="app.json")
-    result = User.get_user_allergy_by_user_id(userid)
-    if result:
+    result = User.get_user_allergy_by_id(userid)
+    if result or result == []:
         rsp = Response(json.dumps(result), status=200, content_type="app.json")
     else:
         rsp = Response("NOT FOUND", status=404, content_type="text/plain")
     return rsp
 
+
 @app.route("/addallergy", methods=["POST"])
 def add_allergy():
-    userid = request.form['userid']
-    token = request.form['token']
+    userid = request.args.get('userid', None)
+    token = request.args.get('token', None)
     res = User.checkAuthToken(userid, token)
     if not res:
         return Response(json.dumps({}), status=403, content_type="app.json")
-    allergy = request.form['allergy']
+    allergy = request.args.get('allergy', None)
     User.add_allergy_by_user_id(userid, allergy)
-
     return Response(json.dumps({}), status=200, content_type="app.json")
 
-@app.route("/deleteallergy", methods=["post"])
+
+@app.route("/deleteallergy", methods=["POST"])
 def delete_allergy():
-    userid = request.form['userid']
-    token = request.form['token']
+    userid = request.args.get('userid', None)
+    token = request.args.get('token', None)
     res = User.checkAuthToken(userid, token)
     if not res:
         return Response(json.dumps({}), status=403, content_type="app.json")
-    allergy = request.form['allergy']
+    allergy = request.args.get('allergy', None)
     User.delete_allergy_by_user_id(userid, allergy)
-
     return Response(json.dumps({}), status=200, content_type="app.json")
-
 
 
 @app.route("/checklogin", methods=["GET"])
