@@ -81,7 +81,7 @@ def checklogin():
     else:
         return Response(json.dumps({}), status=403, content_type="app.json")
 
-@app.route("/login", methods=["POST"])
+@app.route("/login")
 def login():
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
