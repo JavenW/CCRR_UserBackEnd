@@ -16,16 +16,16 @@ GOOGLE_DISCOVERY_URL = (
 
 
 # Create the Flask application object.
-app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+application = Flask(__name__)
+application.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
-CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(application)
+application.config['CORS_HEADERS'] = 'Content-Type'
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 
-@app.route("/getallergy", methods=["GET"])
+@application.route("/getallergy", methods=["GET"])
 def get_allergy():
     userid = request.args.get('userid', None)
     token = request.args.get('token', None)
@@ -42,7 +42,7 @@ def get_allergy():
     return rsp
 
 
-@app.route("/addallergy", methods=["POST"])
+@application.route("/addallergy", methods=["POST"])
 def add_allergy():
     userid = request.args.get('userid', None)
     token = request.args.get('token', None)
@@ -54,7 +54,7 @@ def add_allergy():
     return Response(json.dumps({}), status=200, content_type="app.json")
 
 
-@app.route("/deleteallergy", methods=["POST"])
+@application.route("/deleteallergy", methods=["POST"])
 def delete_allergy():
     userid = request.args.get('userid', None)
     token = request.args.get('token', None)
@@ -66,7 +66,7 @@ def delete_allergy():
     return Response(json.dumps({}), status=200, content_type="app.json")
 
 
-@app.route("/checklogin", methods=["GET"])
+@application.route("/checklogin", methods=["GET"])
 def checklogin():
     print("here1")
     # id = request.form['userid']
@@ -81,7 +81,7 @@ def checklogin():
     else:
         return Response(json.dumps({}), status=403, content_type="app.json")
 
-@app.route("/login")
+@application.route("/login")
 def login():
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
@@ -102,7 +102,7 @@ def login():
     return response
 
 
-@app.route("/login/callback")
+@application.route("/login/callback")
 def callback():
     # Get authorization code Google sent back to you
     code = request.args.get("code")
@@ -147,7 +147,7 @@ def callback():
     else:
         return "User email not available or not verified by Google.", 400
 
-    auth_token = User.encode_auth_token(unique_id, app.config.get('SECRET_KEY'))
+    auth_token = User.encode_auth_token(unique_id, application.config.get('SECRET_KEY'))
 
     # Doesn't exist? Add to database
     if not User.checkUser(unique_id):
@@ -161,7 +161,7 @@ def callback():
 
 
 
-@app.route("/logout")
+@application.route("/logout")
 def logout():
     userid = request.form['userid']
     User.logout(userid)
@@ -174,7 +174,7 @@ def get_google_provider_cfg():
 
 
 if __name__ == "__main__":
-    app.run(ssl_context="adhoc")
-    # app.run(host="0.0.0.0", port=5000)
+    # app.run(ssl_context="adhoc")
+    application.run(host="0.0.0.0", port=8000)
 
 
