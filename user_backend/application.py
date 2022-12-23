@@ -157,7 +157,7 @@ def callback():
         User.update_authtoken(unique_id, auth_token)
 
     # Send user back to homepage
-    return redirect("https://localhost:3000/loginComplete?userid="+unique_id+"&name="+users_name+"&email="+users_email+"&pict="+picture+"&authtoken="+auth_token)
+    return redirect("http://localhost:3000/loginComplete?userid="+unique_id+"&name="+users_name+"&email="+users_email+"&pict="+picture+"&authtoken="+auth_token)
 
 
 
