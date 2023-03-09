@@ -83,9 +83,9 @@ class User():
         # usr = os.environ.get("DBUSER")
         # pw = os.environ.get("DBPW")
         # h = os.environ.get("DBHOST")
-        usr = "admin"
-        pw = "dbuserdbuser"
-        h = "userdb.ci9bmsfj6m9q.us-east-1.rds.amazonaws.com"
+        usr = "xxxx"
+        pw = "xxxx"
+        h = "xxxx"
 
         conn = pymysql.connect(
             user=usr,
