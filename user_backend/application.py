@@ -8,8 +8,8 @@ from user import User
 
 
 # Configuration
-GOOGLE_CLIENT_ID = "35761253348-sek252rrnujnijbah5hta587c0cr1b6m.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = "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"
+GOOGLE_CLIENT_ID = "xxx.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET = "xxxxx"
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
